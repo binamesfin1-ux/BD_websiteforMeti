@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+:root {
+  --bg-primary: #170C15;
+  --bg-secondary: #251221;
+  --text-primary: #FAF7F2;
+  --text-secondary: #E2D3C4;
+  --accent-gold: #E5C158;
+  --accent-rose: #E4A198;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #291223 0%, #170C15 70%);
+}
+
+/* Custom Golden Selection */
+::selection {
+  background-color: rgba(229, 193, 88, 0.35);
+  color: #FFF9E6;
+}
+
+/* Elegant Slender Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #170C15;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(229, 193, 88, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(229, 193, 88, 0.55);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(37, 18, 33, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 193, 88, 0.2);
+}
+
+/* Subtle Shimmer Animation */
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmerSweep 3s infinite ease-in-out;
+}
