@@ -27,7 +27,7 @@ export const timelineData: {
       title: "Partners in Crime",
       memory:
         "Building living room pillow forts, making up games with ridiculous rules, and teaming up against bedtime. Those days laid the foundation for everything.",
-      photo: "./images/timeline-01.jpg",
+      photo: `${import.meta.env.BASE_URL}images/timeline-01.jpg`,
       tag: "Childhood Adventures",
     },
     {
@@ -36,7 +36,7 @@ export const timelineData: {
       title: "Finding Your Spark",
       memory:
         "Watching you develop your unique voice, your passions, and your sense of style. You were never afraid to be authentically yourself.",
-      photo: "./images/timeline-02.jpg",
+      photo: `${import.meta.env.BASE_URL}images/timeline-02.jpg`,
       tag: "Self Discovery",
     },
     {
@@ -45,7 +45,7 @@ export const timelineData: {
       title: "From Siblings to Best Friends",
       memory:
         "Somewhere during high school and university, we stopped just being siblings under one roof and became each other's chosen confidants and closest allies.",
-      photo: "./images/timeline-03.jpg",
+      photo: `${import.meta.env.BASE_URL}images/timeline-03.jpg`,
       tag: "Lifelong Bond",
     },
     {
@@ -54,7 +54,7 @@ export const timelineData: {
       title: "Exploring the World Together",
       memory:
         "Every road trip playlist, every train we rushed for, and every late-night diner meal. The best trips were never about the destination, but the company.",
-      photo: "./images/timeline-04.jpg",
+      photo: `${import.meta.env.BASE_URL}images/timeline-04.jpg`,
       tag: "Shared Journeys",
     },
     {
@@ -63,7 +63,7 @@ export const timelineData: {
       title: "Celebrating Who You Are Today",
       memory:
         "Standing here today, seeing the capable, empathetic, and radiant person you are. I am so excited for everything the future has waiting for you.",
-      photo: "./images/timeline-05.jpg",
+      photo: `${import.meta.env.BASE_URL}images/timeline-05.jpg`,
       tag: "Today & Tomorrow",
     },
   ],

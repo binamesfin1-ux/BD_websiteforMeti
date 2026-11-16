@@ -39,7 +39,7 @@ class SoundEngine {
   }
 
   // Play click / tap sound effect
-  public playClick(src = './audio/click.mp3') {
+  public playClick(src = `${import.meta.env.BASE_URL}audio/click.mp3`) {
     if (this.isMuted) return;
     try {
       const audio = new Audio(src);
@@ -74,7 +74,7 @@ class SoundEngine {
   }
 
   // Play envelope opening sound
-  public playOpening(src = './audio/opening.mp3') {
+  public playOpening(src = `${import.meta.env.BASE_URL}audio/opening.mp3`) {
     if (this.isMuted) return;
     try {
       const audio = new Audio(src);
@@ -113,7 +113,7 @@ class SoundEngine {
   }
 
   // Play celebration fanfare
-  public playCelebration(src = './audio/celebration.mp3') {
+  public playCelebration(src = `${import.meta.env.BASE_URL}audio/celebration.mp3`) {
     if (this.isMuted) return;
     try {
       const audio = new Audio(src);
@@ -159,7 +159,7 @@ class SoundEngine {
   }
 
   // Background music management
-  public initBackgroundMusic(src = './audio/birthday-music.mp3'): HTMLAudioElement {
+  public initBackgroundMusic(src = `${import.meta.env.BASE_URL}audio/birthday-music.mp3`): HTMLAudioElement {
     if (!this.bgAudio) {
       this.bgAudio = new Audio(src);
       this.bgAudio.loop = true;

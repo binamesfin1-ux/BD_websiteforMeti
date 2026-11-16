@@ -57,7 +57,7 @@ export const siteConfig: SiteConfig = {
   heroGreeting: "HAPPY BIRTHDAY, METI",
   heroSubGreeting: "Today is all about celebrating the wonderful person you are.",
   heroTagline: "A collection of little moments, timeless memories, and a thousand wishes made just for you.",
-  heroPhotograph: "./images/hero.jpg",
+  heroPhotograph: `${import.meta.env.BASE_URL}images/hero.jpg`,
 
   // Theme Palette: Warm Ivory, Champagne Gold, Deep Plum, Soft Rose
   theme: {
@@ -74,10 +74,10 @@ export const siteConfig: SiteConfig = {
 
   // Audio System
   audio: {
-    backgroundMusic: "./audio/birthday-music.mp3",
-    openingSound: "./audio/opening.mp3",
-    celebrationSound: "./audio/celebration.mp3",
-    clickSound: "./audio/click.mp3",
+    backgroundMusic: `${import.meta.env.BASE_URL}audio/birthday-music.mp3`,
+    openingSound: `${import.meta.env.BASE_URL}audio/opening.mp3`,
+    celebrationSound: `${import.meta.env.BASE_URL}audio/celebration.mp3`,
+    clickSound: `${import.meta.env.BASE_URL}audio/click.mp3`,
     defaultVolume: 0.5,
     trackTitle: "A Little Universe Theme",
     trackArtist: "Acoustic Melody for Meti",
