@@ -18,6 +18,9 @@ export const Section01Opening: React.FC<Section01OpeningProps> = ({ onOpen }) =>
     // Play magical harp arpeggio
     soundEngine.playOpening();
 
+    // Immediately trigger background music while user interaction gesture is active!
+    soundEngine.playBackgroundMusic();
+
     // After animation completes, unveil the main experience
     setTimeout(() => {
       onOpen();

@@ -2,14 +2,24 @@
 // Guarantees sound effects and music work seamlessly across development and production!
 
 function getAudioCandidates(filename: string): string[] {
+  const isProd = import.meta.env.PROD;
   const base = import.meta.env.BASE_URL || '/';
   const cleanBase = base.endsWith('/') ? base : `${base}/`;
-  return [
-    `${cleanBase}audio/${filename}`,
-    `./audio/${filename}`,
-    `/BD_websiteforMeti/audio/${filename}`,
-    `/audio/${filename}`,
-  ];
+
+  if (isProd) {
+    return [
+      `${cleanBase}audio/${filename}`,
+      `/BD_websiteforMeti/audio/${filename}`,
+      `./audio/${filename}`,
+      `/audio/${filename}`,
+    ];
+  } else {
+    return [
+      `/audio/${filename}`,
+      `${cleanBase}audio/${filename}`,
+      `./audio/${filename}`,
+    ];
+  }
 }
 
 class SoundEngine {
@@ -199,7 +209,8 @@ class SoundEngine {
         // Try next candidate URL
         this.currentCandidateIndex++;
         if (this.currentCandidateIndex < this.bgCandidates.length && this.bgAudio) {
-          this.bgAudio.src = this.bgCandidates[this.currentCandidateIndex];
+          const nextSrc = this.bgCandidates[this.currentCandidateIndex];
+          this.bgAudio.src = nextSrc;
           this.bgAudio.load();
         } else {
           // If all paths fail, fall back to soft procedural ambient
@@ -210,7 +221,8 @@ class SoundEngine {
 
     if (this.bgCandidates.length > 0) {
       const chosenSrc = this.bgCandidates[this.currentCandidateIndex] || this.bgCandidates[0];
-      if (this.bgAudio.src !== chosenSrc) {
+      const currentSrc = this.bgAudio.getAttribute('src');
+      if (!currentSrc || (!currentSrc.includes(chosenSrc) && !this.bgAudio.src.includes(chosenSrc))) {
         this.bgAudio.src = chosenSrc;
         this.bgAudio.load();
       }
