@@ -41,8 +41,8 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   // Sister's Details
-  sisterName: "Meti",
-  sisterNickname: "Meti",
+  sisterName: "Meto",
+  sisterNickname: "Dumbee",
   siblingName: "Your Sibling",
   birthDate: "Today & Every Day",
 
