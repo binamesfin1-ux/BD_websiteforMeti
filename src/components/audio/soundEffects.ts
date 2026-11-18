@@ -1,18 +1,40 @@
 // Audio Engine & Web Audio API Synthesizer Fallback
-// Guarantees sound effects and music work seamlessly even before custom audio files are loaded!
+// Guarantees sound effects and music work seamlessly across development and production!
+
+function getAudioCandidates(filename: string): string[] {
+  const base = import.meta.env.BASE_URL || '/';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return [
+    `${cleanBase}audio/${filename}`,
+    `./audio/${filename}`,
+    `/BD_websiteforMeti/audio/${filename}`,
+    `/audio/${filename}`,
+  ];
+}
 
 class SoundEngine {
   private audioCtx: AudioContext | null = null;
   private bgAudio: HTMLAudioElement | null = null;
   private isSynthesizingBg = false;
   private bgSynthInterval: number | null = null;
-  private currentVolume = 0.5;
+  private currentVolume = 0.6;
   private isMuted = false;
+  private currentCandidateIndex = 0;
+  private bgCandidates: string[] = [];
+
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.bgCandidates = getAudioCandidates('birthday-music.mp3');
+      this.initBackgroundMusic();
+    }
+  }
 
   private getAudioContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
     if (!this.audioCtx) {
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioContextClass) {
         this.audioCtx = new AudioContextClass();
       }
@@ -39,17 +61,48 @@ class SoundEngine {
   }
 
   // Play click / tap sound effect
-  public playClick(src = `${import.meta.env.BASE_URL}audio/click.mp3`) {
+  public playClick(src?: string) {
     if (this.isMuted) return;
-    try {
-      const audio = new Audio(src);
-      audio.volume = this.currentVolume * 0.7;
-      audio.play().catch(() => {
-        this.synthClick();
-      });
-    } catch {
-      this.synthClick();
-    }
+    const candidates = src ? [src] : getAudioCandidates('click.mp3');
+    this.playAudioFileWithFallback(candidates, 0.7, () => this.synthClick());
+  }
+
+  // Play envelope opening sound
+  public playOpening(src?: string) {
+    if (this.isMuted) return;
+    const candidates = src ? [src] : getAudioCandidates('opening.mp3');
+    this.playAudioFileWithFallback(candidates, 1.0, () => this.synthOpening());
+  }
+
+  // Play celebration fanfare
+  public playCelebration(src?: string) {
+    if (this.isMuted) return;
+    const candidates = src ? [src] : getAudioCandidates('celebration.mp3');
+    this.playAudioFileWithFallback(candidates, 1.0, () => this.synthCelebration());
+  }
+
+  private playAudioFileWithFallback(
+    candidates: string[],
+    volumeMultiplier: number,
+    synthFallback: () => void
+  ) {
+    let index = 0;
+    const tryNext = () => {
+      if (index >= candidates.length) {
+        synthFallback();
+        return;
+      }
+      const audio = new Audio(candidates[index]);
+      audio.volume = this.currentVolume * volumeMultiplier;
+      const promise = audio.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          index++;
+          tryNext();
+        });
+      }
+    };
+    tryNext();
   }
 
   // Synthesize soft warm woodblock bell tap via Web Audio API
@@ -73,26 +126,12 @@ class SoundEngine {
     osc.stop(now + 0.09);
   }
 
-  // Play envelope opening sound
-  public playOpening(src = `${import.meta.env.BASE_URL}audio/opening.mp3`) {
-    if (this.isMuted) return;
-    try {
-      const audio = new Audio(src);
-      audio.volume = this.currentVolume;
-      audio.play().catch(() => {
-        this.synthOpening();
-      });
-    } catch {
-      this.synthOpening();
-    }
-  }
-
   // Synthesize magical harp arpeggio
   private synthOpening() {
     const ctx = this.getAudioContext();
     if (!ctx) return;
     const now = ctx.currentTime;
-    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98]; // C5, E5, G5, C6, E6, G6
+    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
 
     notes.forEach((freq, idx) => {
       const start = now + idx * 0.12;
@@ -110,20 +149,6 @@ class SoundEngine {
       osc.start(start);
       osc.stop(start + 1.25);
     });
-  }
-
-  // Play celebration fanfare
-  public playCelebration(src = `${import.meta.env.BASE_URL}audio/celebration.mp3`) {
-    if (this.isMuted) return;
-    try {
-      const audio = new Audio(src);
-      audio.volume = this.currentVolume;
-      audio.play().catch(() => {
-        this.synthCelebration();
-      });
-    } catch {
-      this.synthCelebration();
-    }
   }
 
   // Synthesize celebratory fanfare chord progression
@@ -159,33 +184,71 @@ class SoundEngine {
   }
 
   // Background music management
-  public initBackgroundMusic(src = `${import.meta.env.BASE_URL}audio/birthday-music.mp3`): HTMLAudioElement {
-    if (!this.bgAudio) {
-      this.bgAudio = new Audio(src);
-      this.bgAudio.loop = true;
-      this.bgAudio.volume = this.isMuted ? 0 : this.currentVolume;
+  public initBackgroundMusic(src?: string): HTMLAudioElement {
+    if (src) {
+      this.bgCandidates = [src, ...getAudioCandidates('birthday-music.mp3')];
+      this.currentCandidateIndex = 0;
+    }
 
-      // If audio file fails to load or 404s, fall back to soft procedural ambient melody
+    if (!this.bgAudio) {
+      this.bgAudio = new Audio();
+      this.bgAudio.loop = true;
+      this.bgAudio.preload = 'auto';
+
       this.bgAudio.addEventListener('error', () => {
-        // Fallback procedural synthesizer
-        this.startProceduralAmbient();
+        // Try next candidate URL
+        this.currentCandidateIndex++;
+        if (this.currentCandidateIndex < this.bgCandidates.length && this.bgAudio) {
+          this.bgAudio.src = this.bgCandidates[this.currentCandidateIndex];
+          this.bgAudio.load();
+        } else {
+          // If all paths fail, fall back to soft procedural ambient
+          this.startProceduralAmbient();
+        }
       });
     }
+
+    if (this.bgCandidates.length > 0) {
+      const chosenSrc = this.bgCandidates[this.currentCandidateIndex] || this.bgCandidates[0];
+      if (this.bgAudio.src !== chosenSrc) {
+        this.bgAudio.src = chosenSrc;
+        this.bgAudio.load();
+      }
+    }
+
+    this.bgAudio.volume = this.isMuted ? 0 : this.currentVolume;
     return this.bgAudio;
   }
 
   public playBackgroundMusic() {
-    if (this.bgAudio) {
-      this.bgAudio.volume = this.isMuted ? 0 : this.currentVolume;
-      const playPromise = this.bgAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If browser policy blocked or file is missing, fallback to procedural ambient
-          this.startProceduralAmbient();
-        });
-      }
-    } else {
+    if (!this.bgAudio) {
+      this.initBackgroundMusic();
+    }
+
+    if (!this.bgAudio) {
       this.startProceduralAmbient();
+      return;
+    }
+
+    this.bgAudio.volume = this.isMuted ? 0 : this.currentVolume;
+    const playPromise = this.bgAudio.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          this.stopProceduralAmbient();
+        })
+        .catch(() => {
+          // If browser policy blocked or file is missing, try next candidate or ambient
+          this.currentCandidateIndex++;
+          if (this.currentCandidateIndex < this.bgCandidates.length && this.bgAudio) {
+            this.bgAudio.src = this.bgCandidates[this.currentCandidateIndex];
+            this.bgAudio.load();
+            this.bgAudio.play().catch(() => this.startProceduralAmbient());
+          } else {
+            this.startProceduralAmbient();
+          }
+        });
     }
   }
 
@@ -203,7 +266,7 @@ class SoundEngine {
     const ctx = this.getAudioContext();
     if (!ctx) return;
 
-    const scale = [392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99]; // G Major
+    const scale = [392.0, 440.0, 493.88, 523.25, 587.33, 659.25, 783.99];
     let step = 0;
 
     const playNote = () => {
@@ -241,4 +304,3 @@ class SoundEngine {
 }
 
 export const soundEngine = new SoundEngine();
-

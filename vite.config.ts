@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// GitHub Pages repository: BD_websiteforMeti
-const base = process.env.BASE_PATH ?? '/BD_websiteforMeti/'
+// In development, serve from root '/'.
+// In production (GitHub Pages), serve from repository path '/BD_websiteforMeti/'.
+const base = process.env.BASE_PATH ?? (process.env.NODE_ENV === 'production' ? '/BD_websiteforMeti/' : '/')
 
 export default defineConfig({
   base,

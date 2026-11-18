@@ -22,11 +22,17 @@ import { ScrollProgress } from './components/common/ScrollProgress';
 import { Lightbox, LightboxItem } from './components/common/Lightbox';
 
 import { soundEngine } from './components/audio/soundEffects';
+import { siteConfig } from './data/siteConfig';
 import { galleryData } from './data/gallery';
 
 export const App: React.FC = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+
+  // Pre-initialize background music on mount
+  React.useEffect(() => {
+    soundEngine.initBackgroundMusic(siteConfig.audio.backgroundMusic);
+  }, []);
 
   // Lightbox State
   const [lightboxItems, setLightboxItems] = useState<LightboxItem[]>([]);

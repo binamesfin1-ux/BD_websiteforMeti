@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, ZoomIn } from 'lucide-react';
+import { ZoomIn, Heart } from 'lucide-react';
 import { memoriesData, MemoryItem } from '../../data/memories';
 import { SectionHeader } from '../common/SectionHeader';
 import { SafeImage } from '../common/SafeImage';
@@ -68,25 +68,18 @@ export const Section03Memories: React.FC<Section03MemoriesProps> = ({ onPhotoCli
                   <h3 className="text-base sm:text-lg font-serif font-medium text-amber-100 tracking-wide group-hover:text-amber-200 transition-colors">
                     {mem.title}
                   </h3>
-                  <p className="mt-1.5 text-xs sm:text-sm text-stone-300/80 font-sans leading-relaxed line-clamp-3">
+                  <p className="mt-1.5 text-xs sm:text-sm text-stone-300/80 font-sans leading-relaxed">
                     {mem.caption}
                   </p>
                 </div>
 
-                {/* Metadata tags */}
-                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-amber-300/70">
-                  {mem.date && (
-                    <span className="inline-flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-amber-400" />
-                      {mem.date}
-                    </span>
-                  )}
-                  {mem.location && (
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-rose-400" />
-                      {mem.location}
-                    </span>
-                  )}
+                {/* Subtle, elegant aesthetic footer tag */}
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-serif text-amber-300/60 uppercase tracking-widest">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Heart className="w-3 h-3 text-rose-400 fill-rose-400" />
+                    <span>Cherished Memory</span>
+                  </span>
+                  <span>✦</span>
                 </div>
               </div>
             </motion.div>
@@ -96,4 +89,3 @@ export const Section03Memories: React.FC<Section03MemoriesProps> = ({ onPhotoCli
     </section>
   );
 };
-

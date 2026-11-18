@@ -6,8 +6,6 @@ export interface MemoryItem {
   image: string;
   title: string;
   caption: string;
-  date?: string;
-  location?: string;
   rotation?: number; // Subtle polaroid tilt in degrees
 }
 
@@ -20,62 +18,49 @@ export const memoriesData: {
   sectionTitle: "Little Moments, Beautiful Memories",
   sectionSubtitle: "Chapter 01 · A Collection of Memories",
   description:
-    "Some of the happiest memories are made of the simplest things: long talks, quiet mornings, spontaneous laughs, and being side by side.",
+    "A collection of special snapshots and moments that remind me how lucky I am to have you as my sister.",
   memories: [
     {
       id: "mem-1",
       image: `${import.meta.env.BASE_URL}images/memory-01.jpg`,
-      title: "Late Night Talks & Laughs",
-      caption: "Talking about everything and nothing until 2 AM. The world outside was quiet, but we were laughing uncontrollably.",
-      date: "Summer Evenings",
-      location: "Living Room Floor",
+      title: "Pure Joy",
+      caption: "A candid moment of you that brings an instant smile to my heart.",
       rotation: -2.5,
     },
     {
       id: "mem-2",
       image: `${import.meta.env.BASE_URL}images/memory-02.jpg`,
-      title: "Spontaneous Adventures",
-      caption: "The day we took a wrong turn, got slightly lost, and stumbled upon the most beautiful golden sunset view.",
-      date: "Golden Hour",
-      location: "Scenic Overlook",
+      title: "Unforgettable Moments",
+      caption: "Proof that having you around makes every single day brighter and more memorable.",
       rotation: 3,
     },
     {
       id: "mem-3",
       image: `${import.meta.env.BASE_URL}images/memory-03.jpg`,
-      title: "Milestones & Triumphs",
-      caption: "Watching your hard work and quiet determination pay off. Nobody was prouder of you in that room than me.",
-      date: "Spring Milestone",
-      location: "Celebration Hall",
+      title: "Cherished Memories",
+      caption: "One of my absolute favorite photos of you, capturing your natural warmth.",
       rotation: -1.5,
     },
     {
       id: "mem-4",
       image: `${import.meta.env.BASE_URL}images/memory-04.jpg`,
-      title: "Coffee Runs & Traditions",
-      caption: "Our weekend coffee ritual. Even thirty minutes of coffee with you can turn an entire stressful week around.",
-      date: "Sunday Mornings",
-      location: "Corner Café",
+      title: "That Radiant Smile",
+      caption: "Your laughter is contagious and lights up every space you're in.",
       rotation: 2,
     },
     {
       id: "mem-5",
       image: `${import.meta.env.BASE_URL}images/memory-05.jpg`,
-      title: "Unfiltered Joy",
-      caption: "A candid moment of you laughing with your whole heart. This is my favorite kind of memory of you.",
-      date: "Sunny Afternoon",
-      location: "The Park",
+      title: "Timeless Moments",
+      caption: "A special snapshot worth keeping forever in our little universe.",
       rotation: -3,
     },
     {
       id: "mem-6",
       image: `${import.meta.env.BASE_URL}images/memory-06.jpg`,
-      title: "Quiet Companionship",
-      caption: "We don't always need to say much. Just sitting in the same room reading or listening to music is comforting.",
-      date: "Autumn Days",
-      location: "Home Sweet Home",
+      title: "Just Being You",
+      caption: "Authentic, wonderful, and uniquely you. So proud to have you as my sister.",
       rotation: 1.5,
     },
   ],
 };
-
