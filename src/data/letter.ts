@@ -17,7 +17,7 @@ export const letterData: PersonalLetter = {
   sectionTitle: "Something I Want You to Read",
   sectionSubtitle: "Chapter 05 · A Personal Letter",
   paperHeading: "A Note From The Heart",
-  salutation: "Dearest Meti,",
+  salutation: "Dearest Meto,",
   paragraphs: [
     "As another year turns around the sun, I wanted to pause the fast-moving noise of the world for a few minutes and give you something you can keep and revisit whenever you need a reminder of who you are to me.",
     "It is easy in day-to-day life to get caught up in schedules, routines, and responsibilities, and forget to say the simple truths out loud. So I want to say this clearly: having you as my sister is one of the greatest privileges of my life.",
@@ -27,8 +27,8 @@ export const letterData: PersonalLetter = {
     "No matter what changes around us, or where life takes us next, remember that you will always have someone cheering for you, believing in you, and ready to stand by your side through it all.",
   ],
   closing: "With all my love and endless pride,",
-  signature: "Your Sibling",
+  signature: "Your Sibling,Chara",
   postScript: "P.S. Don't worry, you still don't have to share your birthday cake with anyone... unless it's me!",
-  dateBadge: "November 16 · Today & Always",
+  dateBadge: "November 19 · Today & Always",
 };
 
